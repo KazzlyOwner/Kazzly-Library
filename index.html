@@ -1,6 +1,10 @@
 <!doctype html>
 <html lang="es" data-theme="dark" style="color-scheme: dark;"><head>
 <meta charset="utf-8">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#07060d">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Kazzly Library</title>
 <style>
@@ -46,24 +50,22 @@ img.ic{object-fit:cover;background:#000}
 </style>
 </head>
 <body>
-<header><button class="menu" id="mb" aria-label="Menú">☰</button><h1>📚 Kazzly Library</h1><input id="q" class="search" type="search" placeholder="Busca tu app… (ej: CapCut Pro)" autocomplete="off"></header>
-<div class="veil" id="vl"></div><aside class="drawer" id="dr"><div class="mut" id="who" style="margin-bottom:16px">✔ Sesión iniciada</div><button class="btn" id="m1" disabled="">Iniciar sesión</button><button class="btn o" id="m2">Registrarse</button><button class="btn o" id="m3">Cerrar sesión</button></aside>
+<header><h1>📚 Kazzly Library</h1><input id="q" class="search" type="search" placeholder="Busca tu app… (ej: CapCut Pro)" autocomplete="off"></header>
 <main id="app"></main>
-<script id="data" type="application/json">{"apps":[{"id":"a1791858984847","name":"Capcut Pro","desc":"Capcut Pro 2026 Octubre, es una Apk optimizada, modificada y sin errores de conexion, ¿Cansado de los errores de conexion por la necesidad de tener un VPN? No te preocupes esta APK no necesia VPN, TODO desbloqueado sin errores ni chispas de ´´IU Sistema no responde´´. \n\nDATO A SABER: \nEstos APKS no son originalmente de Kazzly solamente son las mejores APKS que ah buscado para sastifacer al usuario de los temibles errores y scams que la mayoria de APKS suelen traer.\n\nCualquier credito a los creadores originales al descargar.","type":"Apps de edición","pop":true,"icon":"data:image/png;base64,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","versions":[{"v":"19.8.0","size":"315,31 MB","url":"https://www.blacklink.site/mediafire-capcut-pro-free-files"}]}]}</script>
+<script src="apps.js"></script>
 <script>
-let S=JSON.parse(document.getElementById('data').textContent),owner=false,art=null,cur=null,query='',tab='all',typeSel=null,db=null,uid=null,ownerId=null,mine={},R={},st=0;
+let S={apps:APPS},owner=/[?&]admin(=|&|$)/.test(location.search),art=null,cur=null,query='',tab='all',typeSel=null,db=null,uid=null,ownerId=null,mine={},R={},st=0;
 const $=id=>document.getElementById(id),app=$('app');
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const safe=u=>/^https?:\/\//i.test(u||'')?u:'';
 const go=u=>{const l=safe(u);if(l)window.open(l,'_blank','noopener')};
 function sure(b){if(b._s){clearTimeout(b._t);b._s=0;return true}b._s=1;b._o=b.textContent;b.textContent='¿Seguro? Pulsa otra vez';b._t=setTimeout(()=>{b._s=0;b.textContent=b._o},3000);return false}
 window.alert=m=>{let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#110d1c;color:#f4eefc;border:1px solid #ff7a1a;border-radius:12px;padding:12px 18px;z-index:20;box-shadow:0 0 14px rgba(255,122,26,.6)';document.body.appendChild(t)}t.textContent=m;t.style.display='block';clearTimeout(t._t);t._t=setTimeout(()=>t.style.display='none',3500)};
-function stat(id){const l=R[id]||[],n=l.length;return{n,avg:n?l.reduce((a,x)=>a+Math.min(5,Math.max(1,+x.s||1)),0)/n:0}}
 const stars=a=>'★'.repeat(Math.round(a))+'☆'.repeat(5-Math.round(a));
-const ico=(a,big)=>/^data:image\//.test(a.icon||'')?`<img class="ic" ${big?'style="width:72px;height:72px"':''} src="${esc(a.icon)}" alt="">`:`<div class="ic" ${big?'style="width:72px;height:72px;font-size:32px"':''}>${esc(a.name[0]||'?').toUpperCase()}</div>`;
+const ico=(a,big)=>/^(data:image\/|icons\/)/.test(a.icon||'')?`<img class="ic" ${big?'style="width:72px;height:72px"':''} src="${esc(a.icon)}" alt="">`:`<div class="ic" ${big?'style="width:72px;height:72px;font-size:32px"':''}>${esc(a.name[0]||'?').toUpperCase()}</div>`;
 const types=()=>[...new Set(S.apps.map(a=>a.type).filter(Boolean))];
-const popular=()=>S.apps.filter(a=>a.pop||stat(a.id).avg>=4).sort((x,y)=>stat(y.id).avg-stat(x.id).avg||stat(y.id).n-stat(x.id).n);
-function card(a){const s=stat(a.id);return `<div class="item" data-id="${esc(a.id)}">${ico(a)}<div><b>${esc(a.name)}</b>${a.type?`<span class="tag">${esc(a.type)}</span>`:''}<div class="mut">v${esc(a.versions[0]?.v||'-')} · ${s.n?`<span class="st">${stars(s.avg)}</span> ${s.avg.toFixed(1)} (${s.n})`:'Sin opiniones'}</div></div></div>`}
+const popular=()=>S.apps.filter(a=>a.pop);
+function card(a){return `<div class="item" data-id="${esc(a.id)}">${ico(a)}<div><b>${esc(a.name)}</b>${a.type?`<span class="tag">${esc(a.type)}</span>`:''}<div class="mut">v${esc(a.versions[0]?.v||'-')}</div></div></div>`}
 function resize(f){return new Promise(r=>{const i=new Image();i.onload=()=>{const c=document.createElement('canvas');c.width=c.height=96;const m=Math.min(i.width,i.height);c.getContext('2d').drawImage(i,(i.width-m)/2,(i.height-m)/2,m,m,0,0,96,96);r(c.toDataURL('image/png'))};i.onerror=()=>r('');i.src=URL.createObjectURL(f)})}
 function list(){
   cur=null;const t=query.trim().toLowerCase();let h='';
@@ -84,55 +86,23 @@ function list(){
     S.apps.unshift({id:'a'+Date.now(),name:n,desc:$('nd').value.trim(),type:$('nt').value.trim(),pop:$('np').checked,icon:f?await resize(f):'',versions:[{v:$('nv').value.trim()||'1.0',size:$('ns').value.trim(),url:$('nu').value.trim()}]});save()};
 }
 function detail(id){
-  cur=id;const a=S.apps.find(x=>x.id===id);if(!a)return list();const v=a.versions[0],s=stat(id);
-  app.innerHTML=`<a class="back" id="bk">← Volver</a><div class="det"><div class="box">${ico(a,1)}<h2 style="margin:.4em 0 .1em">${esc(a.name)}</h2><div class="mut">${a.type?esc(a.type)+' · ':''}${v?'v'+esc(v.v)+' · '+esc(v.size):''}</div><div id="sm"></div><p><button class="btn" id="dl" ${safe(v?.url)?'':'disabled'}>⬇ Descargar</button></p><h3>Versiones</h3>${a.versions.map((x,i)=>`<div class="ver"><span>v${esc(x.v)} <span class="mut">${esc(x.size)}</span></span><button class="btn o" data-i="${i}">Descargar</button></div>`).join('')}${owner?`<div style="margin-top:14px"><b>➕ Nueva versión</b><input id="vv" placeholder="Versión"><input id="vs" placeholder="Tamaño"><input id="vu" placeholder="Link https://…"><button class="btn" id="av">Añadir</button><hr><b>✏️ Editar</b><input id="et" list="tl2" value="${esc(a.type)}" placeholder="Tipo"><datalist id="tl2">${types().map(x=>`<option value="${esc(x)}">`).join('')}</datalist><label class="mut"><input type="checkbox" id="ep" style="width:auto" ${a.pop?'checked':''}> Mostrar en Lo más popular</label><div class="mut">Cambiar logo:</div><input type="file" id="ei" accept="image/*"><button class="btn" id="se">Guardar cambios</button> <button class="btn o" id="del">Borrar app</button></div>`:''}</div><div><div class="box"><h3>Descripción</h3><p style="white-space:pre-wrap;line-height:1.55">${esc(a.desc)||'<span class=mut>Sin descripción.</span>'}</p></div><div class="box" style="margin-top:16px" id="rv"></div></div></div>`;
+  cur=id;const a=S.apps.find(x=>x.id===id);if(!a)return list();const v=a.versions[0];
+  app.innerHTML=`<a class="back" id="bk">← Volver</a><div class="det"><div class="box">${ico(a,1)}<h2 style="margin:.4em 0 .1em">${esc(a.name)}</h2><div class="mut">${a.type?esc(a.type)+' · ':''}${v?'v'+esc(v.v)+' · '+esc(v.size):''}</div><p><button class="btn" id="dl" ${safe(v?.url)?'':'disabled'}>⬇ Descargar</button></p><h3>Versiones</h3>${a.versions.map((x,i)=>`<div class="ver"><span>v${esc(x.v)} <span class="mut">${esc(x.size)}</span></span><button class="btn o" data-i="${i}">Descargar</button></div>`).join('')}${owner?`<div style="margin-top:14px"><b>➕ Nueva versión</b><input id="vv" placeholder="Versión"><input id="vs" placeholder="Tamaño"><input id="vu" placeholder="Link https://…"><button class="btn" id="av">Añadir</button><hr><b>✏️ Editar</b><input id="et" list="tl2" value="${esc(a.type)}" placeholder="Tipo"><datalist id="tl2">${types().map(x=>`<option value="${esc(x)}">`).join('')}</datalist><label class="mut"><input type="checkbox" id="ep" style="width:auto" ${a.pop?'checked':''}> Mostrar en Lo más popular</label><div class="mut">Cambiar logo:</div><input type="file" id="ei" accept="image/*"><button class="btn" id="se">Guardar cambios</button> <button class="btn o" id="del">Borrar app</button></div>`:''}</div><div><div class="box"><h3>Descripción</h3><p style="white-space:pre-wrap;line-height:1.55">${esc(a.desc)||'<span class=mut>Sin descripción.</span>'}</p></div></div></div>`;
   $('bk').onclick=()=>list();$('dl').onclick=()=>go(v.url);
   app.querySelectorAll('button[data-i]').forEach(b=>b.onclick=()=>go(a.versions[b.dataset.i].url));
   if(owner){$('av').onclick=()=>{const n=$('vv').value.trim();if(!n)return;a.versions.unshift({v:n,size:$('vs').value.trim(),url:$('vu').value.trim()});save()};
     $('se').onclick=async()=>{a.type=$('et').value.trim();a.pop=$('ep').checked;const f=$('ei').files[0];if(f)a.icon=await resize(f);save()};
     $('del').onclick=e=>{if(sure(e.currentTarget)){S.apps=S.apps.filter(x=>x.id!==id);save()}}}
-  rev();
 }
-function rev(){
-  const a=S.apps.find(x=>x.id===cur),el=$('rv');if(!a||!el)return;const s=stat(cur),l=(R[cur]||[]).slice().sort((x,y)=>(y.d||0)-(x.d||0));
-  $('sm').innerHTML=s.n?`<div class="st" style="font-size:20px">${stars(s.avg)} <span class="mut">${s.avg.toFixed(1)} (${s.n})</span></div>`:'<div class="mut">Sin opiniones aún</div>';
-  const m=mine[cur];st=m?m.s:0;
-  el.innerHTML=`<h3>Opiniones</h3>`+(db?`<div class="pick" id="pk">${[1,2,3,4,5].map(i=>`<span data-s="${i}" class="${i<=st?'on':''}">★</span>`).join('')}</div><input id="rn" maxlength="30" placeholder="Tu nombre" value="${esc(m?.n||'')}"><textarea id="rt" rows="2" maxlength="400" placeholder="Escribe tu opinión…">${esc(m?.t||'')}</textarea><button class="btn" id="rp">${m?'Actualizar':'Publicar'} opinión</button>${m?' <button class="btn o" id="rd">🗑 Borrar mi opinión</button>':''}`:'<p class="mut">Inicia sesión en Claude para dejar tu opinión.</p>')+l.map(x=>`<div class="rv"><span class="st">${stars(Math.min(5,Math.max(1,+x.s||1)))}</span> <b>${esc(x.n||'Usuario')}</b>${x.u&&x.u===ownerId?'<span class="vf" title="Verificado">✔</span><span class="cr">Creador</span>':''}<div>${esc(x.t)}</div>${owner&&x.u?`<button class="btn o" data-d="${esc(x.u)}" style="padding:4px 12px;font-size:13px;margin-top:6px">🗑 Borrar</button>`:''}</div>`).join('');
-  if(db){$('pk').onclick=e=>{const i=+e.target.dataset.s;if(!i)return;st=i;[...$('pk').children].forEach((c,k)=>c.classList.toggle('on',k<i))};
-    $('rp').onclick=async()=>{if(!st)return alert('Elige las estrellas');mine[cur]={s:st,t:$('rt').value.trim(),n:$('rn').value.trim()||'Usuario',d:Date.now()};
-      try{await db.doc('reviews/'+uid).set({r:mine})}catch(e){alert('No se pudo guardar tu opinión')}};
-    if($('rd'))$('rd').onclick=async e=>{if(!sure(e.currentTarget))return;delete mine[cur];try{await db.doc('reviews/'+uid).set({r:mine})}catch(e){alert('No se pudo borrar')}}}
-  el.querySelectorAll('button[data-d]').forEach(b=>b.onclick=async e=>{if(!db||!sure(e.currentTarget))return;const u=b.dataset.d;try{const d=await db.doc('reviews/'+u).get(),r={...((d.data()||{}).r||{})};delete r[cur];if(u===uid)mine=r;await db.doc('reviews/'+u).set({r})}catch(e){alert('No se pudo borrar')}});
-}
-function refresh(){if(cur)rev();else if(!(document.activeElement&&/INPUT|TEXTAREA/.test(document.activeElement.tagName)))list()}
-async function save(){
-  if(!art)return;
-  try{const c=document.documentElement.cloneNode(true);c.querySelector('#app').innerHTML='';
-    c.querySelector('#data').textContent=JSON.stringify(S).replace(/</g,'\\u003c');
-    await art.publish('<!doctype html>\n'+c.outerHTML)}catch(e){alert('No se pudo guardar: '+(e&&e.code||e))}
-}
+function save(){try{localStorage.setItem('kz_draft',JSON.stringify(S.apps))}catch(e){}cur?detail(cur):list();alert('Guardado en este navegador. Pulsa "Descargar apps.js" y súbelo a GitHub para que todos lo vean.')}
+function bar(){const b=document.createElement('div');b.style.cssText='background:#1a1030;border-bottom:1px solid #ff7a1a;padding:10px 14px;text-align:center;font-size:14px';
+  b.innerHTML='🔧 Modo administrador · <button class="btn" id="dla" style="padding:6px 14px;font-size:14px">⬇ Descargar apps.js</button> <button class="btn o" id="rst" style="padding:6px 14px;font-size:14px">Descartar cambios</button>';document.body.prepend(b);
+  $('dla').onclick=()=>{const t='const APPS='+JSON.stringify(S.apps,null,2)+';\n';const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/javascript'}));a.download='apps.js';a.click()};
+  $('rst').onclick=e=>{if(!sure(e.currentTarget))return;try{localStorage.removeItem('kz_draft')}catch(x){}location.reload()}}
 $('q').oninput=e=>{query=e.target.value;list()};
+if(owner){try{const d=localStorage.getItem('kz_draft');if(d)S.apps=JSON.parse(d)}catch(e){}bar()}
 list();
-const off=()=>{try{return localStorage.getItem('kz_off')==='1'}catch(e){return false}};
-const setOff=v=>{try{v?localStorage.setItem('kz_off','1'):localStorage.removeItem('kz_off')}catch(e){}};
-const drawer=o=>{$('dr').classList.toggle('on',o);$('vl').classList.toggle('on',o)};
-$('mb').onclick=()=>drawer(!$('dr').classList.contains('on'));$('vl').onclick=()=>drawer(false);
-let signed=false;
-function menu(){$('who').textContent=signed?'✔ Sesión iniciada':'No has iniciado sesión';$('m1').disabled=signed;$('m3').disabled=!signed}
-$('m1').onclick=()=>{setOff(false);if(!signed)window.open('https://claude.ai/login','_blank','noopener');location.reload()};
-$('m2').onclick=()=>window.open('https://claude.ai/signup','_blank','noopener');
-$('m3').onclick=()=>{setOff(true);location.reload()};
-(async()=>{try{
-  const u=off()?null:await claude.use('user');signed=!!u;menu();owner=!!(u&&u.isOwner());
-  if(owner){art=await claude.use('artifact');if(!art)owner=false;list()}
-  db=u?await claude.use('db'):null;
-  if(db&&u){uid=await u.id();
-    db.doc('meta/owner').onSnapshot(d=>{ownerId=(d.data()||{}).id||null;refresh()},()=>{});
-    if(owner)try{const d=await db.doc('meta/owner').get();if(!d.exists||d.data().id!==uid)await db.doc('meta/owner').set({id:uid})}catch(e){}
-    db.collection('reviews').onSnapshot(sn=>{R={};sn.docs.forEach(d=>{const r=(d.data()||{}).r||{};if(d.id===uid)mine=r;for(const k in r)(R[k]=R[k]||[]).push({...r[k],u:d.id})});refresh()},()=>{})}
-  else db=null;
-  refresh()
-}catch(e){}})();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 
 
