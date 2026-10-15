@@ -1,17 +1,17 @@
-// Aquí viven las apps de Kazzly Library.
-// Para agregar una nueva, copia un bloque { ... } completo, pégalo debajo (con coma entre bloques) y cambia los datos.
-// icon: pon "" para usar la inicial, o la ruta de una imagen que subas a la carpeta icons/ (ej: "icons/miapp.png").
-// pop: true = sale en "Lo más popular".
 const APPS=[
   {
-    id: "ejemplo",
-    name: "App de ejemplo",
-    type: "Herramientas",
-    pop: true,
-    icon: "",
-    desc: "Descripción de ejemplo. Cámbiala por la de tu app.",
-    versions: [
-      { v: "1.0.0", size: "50 MB", url: "" }
+    "id": "a1792037198939",
+    "name": "Capcut Pro",
+    "desc": "La app de edición de vídeo oficial de TikTok.",
+    "type": "Apps de Edición",
+    "pop": true,
+    "icon": "data:image/png;base64,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",
+    "versions": [
+      {
+        "v": "19.8.0",
+        "size": "315,31 MB",
+        "url": "https://blacklink.site/mediafire-capcut-pro-free-files"
+      }
     ]
   }
 ];
