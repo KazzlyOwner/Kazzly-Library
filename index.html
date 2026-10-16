@@ -47,6 +47,18 @@ img.ic{object-fit:cover;background:#000}
 .drawer.on{transform:none}
 .drawer button{display:block;width:100%;text-align:left;margin-bottom:10px}
 .veil{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9;display:none}.veil.on{display:block}
+@keyframes rise{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes slide{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+.item{animation:rise .38s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*45ms);transition:transform .2s,border-color .2s,box-shadow .2s}
+.item:hover{transform:translateY(-3px)}
+.det>.box,.det>div{animation:slide .4s cubic-bezier(.2,.8,.2,1) both}.det>div{animation-delay:.08s}
+main>p.mut{animation:fade .3s both}
+.tab{transition:background .25s,color .25s,box-shadow .25s,transform .15s}.tab:hover{transform:translateY(-2px)}.tab:active,.btn:active{transform:scale(.96)}
+.btn{transition:background .2s,transform .15s,box-shadow .2s}
+.ver{transition:background .2s}.ver:hover{background:rgba(255,122,26,.06)}
+.search{transition:box-shadow .3s,transform .3s}.search:focus{transform:scale(1.01)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -79,7 +91,7 @@ function list(){
   }
   if(owner&&!t)h+=`<div class="box" style="margin-top:20px"><h3>➕ Nueva app (solo tú ves esto)</h3><input id="na" placeholder="Nombre"><textarea id="nd" rows="3" placeholder="Descripción"></textarea><input id="nt" list="tl" placeholder="Tipo (ej: Apps de edición, Videojuegos)"><datalist id="tl">${types().map(x=>`<option value="${esc(x)}">`).join('')}</datalist><label class="mut"><input type="checkbox" id="np" style="width:auto"> Mostrar en Lo más popular</label><div class="mut" style="margin-top:6px">Logo (PNG/JPG):</div><input type="file" id="ni" accept="image/*"><input id="nv" placeholder="Versión (ej: 1.0.0)"><input id="ns" placeholder="Tamaño (ej: 80 MB)"><input id="nu" placeholder="Link de descarga (https://…)"><button class="btn" id="add" style="margin-top:8px">Guardar y publicar</button></div>`;
   app.innerHTML=h;
-  app.querySelectorAll('.item').forEach(e=>e.onclick=()=>detail(e.dataset.id));
+  app.querySelectorAll('.item').forEach((e,i)=>{e.style.setProperty('--i',Math.min(i,8));e.onclick=()=>detail(e.dataset.id)});
   app.querySelectorAll('[data-t]').forEach(e=>e.onclick=()=>{tab=e.dataset.t;list()});
   app.querySelectorAll('[data-ty]').forEach(e=>e.onclick=()=>{typeSel=e.dataset.ty;list()});
   if(owner&&!t)$('add').onclick=async()=>{const n=$('na').value.trim();if(!n)return;const f=$('ni').files[0];
