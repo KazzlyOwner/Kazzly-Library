@@ -101,6 +101,8 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;bac
 @keyframes pulse{0%,100%{transform:rotate(-3deg) scale(1)}50%{transform:rotate(-3deg) scale(1.08)}}
 #spi{max-width:420px;display:block;margin:12px auto 0;text-align:center}
 .lg{width:32px;height:32px;border-radius:9px;object-fit:cover;margin-right:10px;filter:drop-shadow(0 0 6px rgba(255,122,26,.7))}
+.gc{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:16px 18px;border-radius:16px;margin-bottom:18px;background:rgba(255,255,255,.055);backdrop-filter:blur(18px) saturate(170%);-webkit-backdrop-filter:blur(18px) saturate(170%);border:1px solid rgba(255,255,255,.16);border-left:3px solid var(--or);box-shadow:inset 0 1px 0 rgba(255,255,255,.26),0 8px 28px rgba(0,0,0,.35);animation:rise .4s cubic-bezier(.2,.8,.2,1) both}
+.gc>div{flex:1 1 260px;min-width:0}.gc b{font-size:16px}.gc .btn{flex:none}
 </style>
 </head>
 <body>
@@ -135,6 +137,9 @@ function rows(){let h='';const p=popular();if(p.length)h+=rowH('🔥 Lo más pop
 let SPL=typeof SPLASH==='string'?SPLASH:'',LG=typeof LOGO==='string'?LOGO:'';
 function logo(){const e=$('lg');if(/^data:image\//.test(LG)){e.src=LG;e.hidden=false}else{e.hidden=true;e.removeAttribute('src')}}
 function splash(){const e=$('sp');e.textContent=SPL;e.style.display=SPL?'block':'none'}
+const GDEF={title:'Entra al grupo oficial de Kazz Library',text:'Ahí avisamos los próximos links, los cambios de actualización y los sorteos de links antes que en ningún lado.',url:''};
+let G={...GDEF,...(typeof GROUP==='object'&&GROUP?GROUP:{})};
+const gcard=()=>(G.title||G.text)?`<div class="gc"><div><b>${esc(G.title)}</b><div class="mut" style="margin-top:4px">${esc(G.text)}</div></div>${safe(G.url)?'<button class="btn" id="gb">Unirme al grupo</button>':''}</div>`:'';
 function list(){
   cur=null;const t=query.trim().toLowerCase();let h='';
   if(t){const r=S.apps.filter(a=>a.name.toLowerCase().includes(t));h=r.map(card).join('')||'<p class="mut">No se encontró ninguna app.</p>'}
@@ -146,7 +151,11 @@ function list(){
       if(typeSel)h+=S.apps.filter(a=>a.type===typeSel).map(card).join('');else h+='<p class="mut">Elige un tipo.</p>'}
   }
   if(owner&&!t)h+=`<div class="box" style="margin-top:20px"><h3>➕ Nueva app (solo tú ves esto)</h3><input id="na" placeholder="Nombre"><textarea id="nd" rows="3" placeholder="Sobre la app (descripción)"></textarea><input id="nt" list="tl" placeholder="Tipo (ej: Apps de edición, Videojuegos)"><datalist id="tl">${types().map(x=>`<option value="${esc(x)}">`).join('')}</datalist><label class="mut"><input type="checkbox" id="np" style="width:auto"> Mostrar en Lo más popular</label><div class="mut" style="margin-top:6px">Logo (PNG/JPG):</div><input type="file" id="ni" accept="image/*"><input id="nde" placeholder="Desarrollador"><div class="mut" style="margin-top:6px">Última actualización:</div><input type="date" id="nup"><input id="nr" placeholder="Requerimientos (ej: Android 6.0+)"><div class="mut" style="margin-top:6px">Datos de Play Store:</div><input id="nrat" placeholder="Estrellas (ej: 4.5)"><input id="nrev" placeholder="Opiniones (ej: 4 M opiniones)"><input id="nage" placeholder="Edad (ej: Para mayores de 10 años)"><textarea id="nai" rows="3" placeholder="Detalle de la edad, una línea por dato (ej: Violencia de fantasía)"></textarea><input id="ndl" placeholder="Descargas (ej: Más de 50 M)"><textarea id="nf" rows="3" placeholder="Características (una por línea)"></textarea><div class="mut" style="margin-top:6px">Capturas de pantalla (hasta 6):</div><input type="file" id="nsh" accept="image/*" multiple><input id="nv" placeholder="Versión (ej: 1.0.0)"><input id="ns" placeholder="Tamaño (ej: 80 MB)"><input id="nu" placeholder="Link de descarga (https://…)"><button class="btn" id="add" style="margin-top:8px">Guardar y publicar</button></div>`;
+  if(owner&&!t)h+=`<div class="box" style="margin-top:20px"><h3>Cuadro del grupo (solo tú ves esto)</h3><input id="gt" value="${esc(G.title)}" placeholder="Título"><textarea id="gx" rows="3" placeholder="Texto">${esc(G.text)}</textarea><input id="gu" value="${esc(G.url)}" placeholder="Link de tu grupo de WhatsApp (https://chat.whatsapp.com/…)"><button class="btn" id="gs" style="margin-top:8px">Guardar cuadro</button></div>`;
+  if(!t)h=gcard()+h;
   app.innerHTML=h;
+  if($('gb'))$('gb').onclick=()=>go(G.url);
+  if(owner&&!t)$('gs').onclick=()=>{G={title:$('gt').value.trim(),text:$('gx').value.trim(),url:$('gu').value.trim()};try{localStorage.setItem('kz_group',JSON.stringify(G))}catch(e){}list();alert('Cuadro guardado. Descarga apps.js y súbelo a GitHub para que todos lo vean.')};
   app.querySelectorAll('.tile').forEach(e=>e.onclick=()=>detail(e.dataset.id));
   app.querySelectorAll('.ar').forEach(b=>b.onclick=()=>{const x=b.parentNode.querySelector('.rs');x.scrollBy({left:(b.classList.contains('l')?-1:1)*x.clientWidth*.8,behavior:'smooth'})});
   app.querySelectorAll('.item').forEach((e,i)=>{e.style.setProperty('--i',Math.min(i,8));e.onclick=()=>detail(e.dataset.id)});
@@ -180,10 +189,10 @@ function detail(id){
 function save(){try{localStorage.setItem('kz_draft',JSON.stringify(S.apps))}catch(e){}cur?detail(cur):list();alert('Guardado en este navegador. Pulsa "Descargar apps.js" y súbelo a GitHub para que todos lo vean.')}
 function bar(){const b=document.createElement('div');b.style.cssText='background:#1a1030;border-bottom:1px solid #ff7a1a;padding:10px 14px;text-align:center;font-size:14px';
   b.innerHTML='🔧 Modo administrador · <button class="btn" id="dla" style="padding:6px 14px;font-size:14px">⬇ Descargar apps.js</button> <button class="btn o" id="rst" style="padding:6px 14px;font-size:14px">Descartar cambios</button>';document.body.prepend(b);
-  $('dla').onclick=()=>{const t='const APPS='+JSON.stringify(S.apps,null,2)+';\nconst SPLASH='+JSON.stringify(SPL)+';\nconst LOGO='+JSON.stringify(LG)+';\n';const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/javascript'}));a.download='apps.js';a.click()};
-  $('rst').onclick=e=>{if(!sure(e.currentTarget))return;try{localStorage.removeItem('kz_draft');localStorage.removeItem('kz_splash');localStorage.removeItem('kz_logo')}catch(x){}location.reload()}}
+  $('dla').onclick=()=>{const t='const APPS='+JSON.stringify(S.apps,null,2)+';\nconst SPLASH='+JSON.stringify(SPL)+';\nconst LOGO='+JSON.stringify(LG)+';\nconst GROUP='+JSON.stringify(G)+';\n';const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/javascript'}));a.download='apps.js';a.click()};
+  $('rst').onclick=e=>{if(!sure(e.currentTarget))return;try{localStorage.removeItem('kz_draft');localStorage.removeItem('kz_splash');localStorage.removeItem('kz_logo');localStorage.removeItem('kz_group')}catch(x){}location.reload()}}
 $('q').oninput=e=>{query=e.target.value;list()};
-if(owner){try{const d=localStorage.getItem('kz_draft');if(d)S.apps=JSON.parse(d);const z=localStorage.getItem('kz_splash');if(z!==null)SPL=z;const l=localStorage.getItem('kz_logo');if(l!==null)LG=l}catch(e){}bar();const i=document.createElement('input');i.id='spi';i.maxLength=60;i.placeholder='Mini texto amarillo (solo tú lo ves)';i.value=SPL;i.oninput=()=>{SPL=i.value;try{localStorage.setItem('kz_splash',SPL)}catch(e){}splash()};$('sp').after(i);
+if(owner){try{const d=localStorage.getItem('kz_draft');if(d)S.apps=JSON.parse(d);const z=localStorage.getItem('kz_splash');if(z!==null)SPL=z;const l=localStorage.getItem('kz_logo');if(l!==null)LG=l;const g=localStorage.getItem('kz_group');if(g)G={...G,...JSON.parse(g)}}catch(e){}bar();const i=document.createElement('input');i.id='spi';i.maxLength=60;i.placeholder='Mini texto amarillo (solo tú lo ves)';i.value=SPL;i.oninput=()=>{SPL=i.value;try{localStorage.setItem('kz_splash',SPL)}catch(e){}splash()};$('sp').after(i);
   const w=document.createElement('div'),lf=document.createElement('input'),lx=document.createElement('button');
   w.className='mut';w.style.cssText='text-align:center;margin-top:10px';w.append('Logo de la barra: ');
   lf.type='file';lf.accept='image/*';lf.style.cssText='width:auto;max-width:230px;display:inline-block;margin:0 6px';
