@@ -73,10 +73,39 @@ main>p.mut{animation:fade .3s both}
 .pp{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:30;display:grid;place-items:center;padding:20px;animation:fade .2s both}
 .pp>div{background:var(--card);border:1px solid var(--or);border-radius:16px;padding:20px;max-width:420px;width:100%;box-shadow:var(--glow);animation:rise .3s both}
 .pp h3{margin:0 0 8px}.pp p{margin:0;padding:10px 0;border-top:1px solid var(--bd);line-height:1.5}
+.rw{margin-bottom:26px}.rh{display:flex;align-items:baseline;gap:10px;margin:0 2px 8px}.rh h3{margin:0;font-size:20px;text-shadow:0 0 10px rgba(255,122,26,.45)}
+.rl{position:relative}
+.rs{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x proximity;padding:8px 2px 14px;scrollbar-width:none}.rs::-webkit-scrollbar{display:none}
+.tile{flex:none;width:118px;scroll-snap-align:start;text-align:center;cursor:pointer;padding:12px 8px;border:1px solid var(--bd);border-radius:14px;background:var(--card);animation:rise .38s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*45ms);transition:transform .2s,border-color .2s,box-shadow .2s}
+.tile:hover{transform:translateY(-3px);border-color:var(--or);box-shadow:var(--glow)}
+.tile .ic{width:72px;height:72px;margin:0 auto 8px;font-size:30px;border-radius:18px}
+.tile b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tile small{color:var(--mut);font-size:12px}
+.ar{position:absolute;top:50%;margin-top:-26px;z-index:2;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--or);background:#0d0a16;color:var(--or);font-size:22px;line-height:1;cursor:pointer;display:none;box-shadow:var(--glow)}.ar.l{left:-10px}.ar.r{right:-10px}
+@media (hover:hover) and (pointer:fine){.rl:hover .ar{display:block}}
+.bar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:20;margin:8px 10px 0;padding:12px 20px;border-radius:18px;display:flex;align-items:center}
+.bar b{font-size:19px;letter-spacing:.5px;color:#fff;text-shadow:0 0 6px #fff,0 0 14px var(--or),0 0 26px var(--or)}
+header{border-bottom:0;box-shadow:none;padding-top:26px}
+h1{font-size:clamp(22px,4.6vw,34px)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:19;background:rgba(14,10,24,.55);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(circle at 12% 18%,rgba(255,122,26,.22),transparent 38%),radial-gradient(circle at 88% 62%,rgba(160,60,255,.24),transparent 42%),radial-gradient(circle at 30% 95%,rgba(255,61,129,.14),transparent 40%)}
+.bar,.item,.tile,.box,.stats,.search,.tab,.pp>div,.ar{background:rgba(255,255,255,.055);backdrop-filter:blur(18px) saturate(170%);-webkit-backdrop-filter:blur(18px) saturate(170%);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.26),0 8px 28px rgba(0,0,0,.35)}
+.bar{background:rgba(255,255,255,.075)}
+.tab.on{background:rgba(255,122,26,.85);color:#120800;border-color:rgba(255,255,255,.35);box-shadow:var(--glow)}
+.tab{color:#fff}
+.search{border:1.5px solid rgba(255,122,26,.85);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),var(--glow)}
+.search:focus{box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 0 12px var(--or),0 0 34px rgba(255,122,26,.6)}
+.pp>div{background:rgba(26,16,40,.7);border-color:rgba(255,122,26,.7)}
+.item:hover,.tile:hover{border-color:var(--or);box-shadow:inset 0 1px 0 rgba(255,255,255,.26),var(--glow)}
+.ar{border-color:var(--or)}
+.splash{display:block;margin:16px auto 0;max-width:92%;color:#ffe600;font-weight:800;font-size:15px;text-shadow:2px 2px 0 #3b3000,0 0 12px rgba(255,230,0,.45);transform:rotate(-3deg);animation:pulse 1.2s ease-in-out infinite;pointer-events:none}
+@keyframes pulse{0%,100%{transform:rotate(-3deg) scale(1)}50%{transform:rotate(-3deg) scale(1.08)}}
+#spi{max-width:420px;display:block;margin:12px auto 0;text-align:center}
+.lg{width:32px;height:32px;border-radius:9px;object-fit:cover;margin-right:10px;filter:drop-shadow(0 0 6px rgba(255,122,26,.7))}
 </style>
 </head>
 <body>
-<header><h1>📚 Kazzly Library</h1><input id="q" class="search" type="search" placeholder="Busca tu app… (ej: CapCut Pro)" autocomplete="off"></header>
+<div class="bar"><img id="lg" class="lg" alt="" hidden><b>Kazzly Library</b></div>
+<header><h1>¡La mejor página de Link directo!</h1><input id="q" class="search" type="search" placeholder="Busca tu app… (ej: CapCut Pro)" autocomplete="off"><div id="sp" class="splash"></div></header>
 <main id="app"></main>
 <script src="apps.js"></script>
 <script>
@@ -100,18 +129,26 @@ const fdate=d=>/^\d{4}-\d{2}-\d{2}$/.test(d||'')?new Date(d+'T12:00:00').toLocal
 function zoom(src){const o=document.createElement('div');o.className='lb';o.innerHTML='<img alt="">';o.firstChild.src=src;o.onclick=()=>o.remove();document.body.appendChild(o)}
 function agepop(t,l){const o=document.createElement('div');o.className='pp';o.innerHTML='<div><h3></h3><div class="pl"></div><button class="btn" style="width:100%;margin-top:14px">Entendido</button></div>';o.querySelector('h3').textContent=t;const c=o.querySelector('.pl');l.forEach(x=>{const p=document.createElement('p');p.textContent=x;c.appendChild(p)});o.querySelector('button').onclick=()=>o.remove();o.onclick=e=>{if(e.target===o)o.remove()};document.body.appendChild(o)}
 const lines=t=>(t||'').split('\n').map(x=>x.trim()).filter(Boolean);
+const tile=(a,i)=>`<div class="tile" data-id="${esc(a.id)}" style="--i:${Math.min(i,8)}">${ico(a)}<b>${esc(a.name)}</b><small>v${esc(a.versions[0]?.v||'-')}</small></div>`;
+const rowH=(t,l)=>`<section class="rw"><div class="rh"><h3>${esc(t)}</h3><span class="mut">${l.length}</span></div><div class="rl"><button class="ar l" aria-label="Anterior">‹</button><div class="rs">${l.map(tile).join('')}</div><button class="ar r" aria-label="Siguiente">›</button></div></section>`;
+function rows(){let h='';const p=popular();if(p.length)h+=rowH('🔥 Lo más popular',p);types().forEach(t=>h+=rowH(t,S.apps.filter(a=>a.type===t)));const o=S.apps.filter(a=>!a.type);if(o.length)h+=rowH('Otros',o);return h||'<p class="mut">Aún no hay apps.</p>'}
+let SPL=typeof SPLASH==='string'?SPLASH:'',LG=typeof LOGO==='string'?LOGO:'';
+function logo(){const e=$('lg');if(/^data:image\//.test(LG)){e.src=LG;e.hidden=false}else{e.hidden=true;e.removeAttribute('src')}}
+function splash(){const e=$('sp');e.textContent=SPL;e.style.display=SPL?'block':'none'}
 function list(){
   cur=null;const t=query.trim().toLowerCase();let h='';
   if(t){const r=S.apps.filter(a=>a.name.toLowerCase().includes(t));h=r.map(card).join('')||'<p class="mut">No se encontró ninguna app.</p>'}
   else{
     h=`<div class="tabs">${[['all','📚 Todas'],['pop','🔥 Lo más popular'],['types','🗂 Tipos']].map(([k,l])=>`<button class="tab ${tab===k?'on':''}" data-t="${k}">${l}</button>`).join('')}</div>`;
-    if(tab==='all')h+=S.apps.map(card).join('');
+    if(tab==='all')h+=rows();
     else if(tab==='pop')h+=popular().map(card).join('')||'<p class="mut">Aún no hay apps populares.</p>';
     else{h+=`<div class="tabs">${types().map(x=>`<button class="tab ${typeSel===x?'on':''}" data-ty="${esc(x)}">${esc(x)}</button>`).join('')}</div>`;
       if(typeSel)h+=S.apps.filter(a=>a.type===typeSel).map(card).join('');else h+='<p class="mut">Elige un tipo.</p>'}
   }
   if(owner&&!t)h+=`<div class="box" style="margin-top:20px"><h3>➕ Nueva app (solo tú ves esto)</h3><input id="na" placeholder="Nombre"><textarea id="nd" rows="3" placeholder="Sobre la app (descripción)"></textarea><input id="nt" list="tl" placeholder="Tipo (ej: Apps de edición, Videojuegos)"><datalist id="tl">${types().map(x=>`<option value="${esc(x)}">`).join('')}</datalist><label class="mut"><input type="checkbox" id="np" style="width:auto"> Mostrar en Lo más popular</label><div class="mut" style="margin-top:6px">Logo (PNG/JPG):</div><input type="file" id="ni" accept="image/*"><input id="nde" placeholder="Desarrollador"><div class="mut" style="margin-top:6px">Última actualización:</div><input type="date" id="nup"><input id="nr" placeholder="Requerimientos (ej: Android 6.0+)"><div class="mut" style="margin-top:6px">Datos de Play Store:</div><input id="nrat" placeholder="Estrellas (ej: 4.5)"><input id="nrev" placeholder="Opiniones (ej: 4 M opiniones)"><input id="nage" placeholder="Edad (ej: Para mayores de 10 años)"><textarea id="nai" rows="3" placeholder="Detalle de la edad, una línea por dato (ej: Violencia de fantasía)"></textarea><input id="ndl" placeholder="Descargas (ej: Más de 50 M)"><textarea id="nf" rows="3" placeholder="Características (una por línea)"></textarea><div class="mut" style="margin-top:6px">Capturas de pantalla (hasta 6):</div><input type="file" id="nsh" accept="image/*" multiple><input id="nv" placeholder="Versión (ej: 1.0.0)"><input id="ns" placeholder="Tamaño (ej: 80 MB)"><input id="nu" placeholder="Link de descarga (https://…)"><button class="btn" id="add" style="margin-top:8px">Guardar y publicar</button></div>`;
   app.innerHTML=h;
+  app.querySelectorAll('.tile').forEach(e=>e.onclick=()=>detail(e.dataset.id));
+  app.querySelectorAll('.ar').forEach(b=>b.onclick=()=>{const x=b.parentNode.querySelector('.rs');x.scrollBy({left:(b.classList.contains('l')?-1:1)*x.clientWidth*.8,behavior:'smooth'})});
   app.querySelectorAll('.item').forEach((e,i)=>{e.style.setProperty('--i',Math.min(i,8));e.onclick=()=>detail(e.dataset.id)});
   app.querySelectorAll('[data-t]').forEach(e=>e.onclick=()=>{tab=e.dataset.t;list()});
   app.querySelectorAll('[data-ty]').forEach(e=>e.onclick=()=>{typeSel=e.dataset.ty;list()});
@@ -143,10 +180,18 @@ function detail(id){
 function save(){try{localStorage.setItem('kz_draft',JSON.stringify(S.apps))}catch(e){}cur?detail(cur):list();alert('Guardado en este navegador. Pulsa "Descargar apps.js" y súbelo a GitHub para que todos lo vean.')}
 function bar(){const b=document.createElement('div');b.style.cssText='background:#1a1030;border-bottom:1px solid #ff7a1a;padding:10px 14px;text-align:center;font-size:14px';
   b.innerHTML='🔧 Modo administrador · <button class="btn" id="dla" style="padding:6px 14px;font-size:14px">⬇ Descargar apps.js</button> <button class="btn o" id="rst" style="padding:6px 14px;font-size:14px">Descartar cambios</button>';document.body.prepend(b);
-  $('dla').onclick=()=>{const t='const APPS='+JSON.stringify(S.apps,null,2)+';\n';const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/javascript'}));a.download='apps.js';a.click()};
-  $('rst').onclick=e=>{if(!sure(e.currentTarget))return;try{localStorage.removeItem('kz_draft')}catch(x){}location.reload()}}
+  $('dla').onclick=()=>{const t='const APPS='+JSON.stringify(S.apps,null,2)+';\nconst SPLASH='+JSON.stringify(SPL)+';\nconst LOGO='+JSON.stringify(LG)+';\n';const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/javascript'}));a.download='apps.js';a.click()};
+  $('rst').onclick=e=>{if(!sure(e.currentTarget))return;try{localStorage.removeItem('kz_draft');localStorage.removeItem('kz_splash');localStorage.removeItem('kz_logo')}catch(x){}location.reload()}}
 $('q').oninput=e=>{query=e.target.value;list()};
-if(owner){try{const d=localStorage.getItem('kz_draft');if(d)S.apps=JSON.parse(d)}catch(e){}bar()}
+if(owner){try{const d=localStorage.getItem('kz_draft');if(d)S.apps=JSON.parse(d);const z=localStorage.getItem('kz_splash');if(z!==null)SPL=z;const l=localStorage.getItem('kz_logo');if(l!==null)LG=l}catch(e){}bar();const i=document.createElement('input');i.id='spi';i.maxLength=60;i.placeholder='Mini texto amarillo (solo tú lo ves)';i.value=SPL;i.oninput=()=>{SPL=i.value;try{localStorage.setItem('kz_splash',SPL)}catch(e){}splash()};$('sp').after(i);
+  const w=document.createElement('div'),lf=document.createElement('input'),lx=document.createElement('button');
+  w.className='mut';w.style.cssText='text-align:center;margin-top:10px';w.append('Logo de la barra: ');
+  lf.type='file';lf.accept='image/*';lf.style.cssText='width:auto;max-width:230px;display:inline-block;margin:0 6px';
+  lf.onchange=async()=>{const f=lf.files[0];if(!f)return;LG=await resize(f);try{localStorage.setItem('kz_logo',LG)}catch(e){}logo()};
+  lx.className='btn o';lx.textContent='Quitar';lx.style.cssText='padding:4px 12px;font-size:13px';
+  lx.onclick=()=>{LG='';try{localStorage.setItem('kz_logo','')}catch(e){}logo()};
+  w.append(lf,lx);i.after(w)}
+splash();logo();
 list();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
