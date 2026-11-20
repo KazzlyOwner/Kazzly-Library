@@ -1,0 +1,1 @@
+const MANT={"on":true,"title":"🚧 Página en Proceso","text":"Estamos actualizando Kazzly Library: rediseñando la página y agregando las versiones más recientes de las apps.\n\nMientras tanto no podrás navegar ni descargar nada. Vuelve en unos días, ¡valdrá la pena! 🔥\n\nGracias por tu paciencia.","img":""};
