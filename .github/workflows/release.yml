@@ -1,0 +1,79 @@
+name: Crear release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Versión del release
+        default: v1.0
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  escritorio:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+        working-directory: app
+      - run: npx electron-builder --publish never
+        working-directory: app
+      - uses: actions/upload-artifact@v4
+        with:
+          name: escritorio-${{ matrix.os }}
+          path: |
+            app/dist/*.exe
+            app/dist/*.AppImage
+
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - run: |
+          npm install
+          npx cap add android
+          npx cap sync android
+        working-directory: android-app
+      - run: ./gradlew assembleDebug
+        working-directory: android-app/android
+      - run: cp android-app/android/app/build/outputs/apk/debug/app-debug.apk Kazzly-Library.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android
+          path: Kazzly-Library.apk
+
+  release:
+    needs: [escritorio, android]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: salida
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+          name: Kazzly Library ${{ github.event.inputs.tag || github.ref_name }}
+          body: |
+            Descargas de Kazzly Library:
+            - 📱 Android: Kazzly-Library.apk
+            - 🪟 Windows: Kazzly-Library-Setup-*.exe
+            - 🐧 Linux: Kazzly-Library-*.AppImage
+          files: salida/*
