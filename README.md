@@ -27,12 +27,12 @@ Kazzly Library es una pequeña página creada para mi organización. Reúne apps
 - 🔎 Buscador de apps
 - 🗂 Categorías por tipo y sección de lo más popular
 - 📱 Diseño adaptado a celular, con botón de descarga siempre a la mano
-- ⚙️ Modo administrador para agregar y editar apps
 
 ## Estado
 
 🚧 **En proceso.** Estoy rediseñando la página y agregando las versiones nuevas. ¡Gracias por la paciencia!
+Eh estado ocupado mucho en este tiempo, ya que ah sido un proyecto solitario.
 
 ## Créditos
 
-Creada por **Kazzly** ([@KazzlyOwner](https://github.com/KazzlyOwner)), con la ayuda de **Claude** (Anthropic) 🤝
+Creada por **Kazzly** ([@KazzlyOwner](https://github.com/KazzlyOwner))
