@@ -1,0 +1,8 @@
+{
+  "appId": "com.kazzly.library",
+  "appName": "Kazzly Library",
+  "webDir": "www",
+  "server": {
+    "url": "https://kazzlyowner.github.io/Kazzly-Library/"
+  }
+}
